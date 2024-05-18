@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('成绩管理列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                           个人总成绩
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var prefix = ctx + "student/score";
+    $(function () {
+        var options = {
+            url: prefix + "/sum",
+            exportUrl: prefix + "/export",
+            modalName: "成绩管理",
+            columns: [{
+                checkbox: true
+            },
+                {
+                    field: 'studentNo',
+                    title: '学号'
+                },
+                {
+                    field: 'studentName',
+                    title: '学生姓名'
+                },
+                {
+                    field: 'exerciseScore',
+                    title: '练习成绩'
+                },
+                {
+                    field: 'testScore',
+                    title: '测验成绩'
+                },
+                {
+                    field: 'examScore',
+                    title: '考试成绩'
+                },
+                {
+                    field: 'totalScore',
+                    title: '总成绩'
+                }
+            ]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

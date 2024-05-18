@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.student.mapper.TScoreMapper">
+
+    <resultMap id="TScoreResult" type="com.ruoyi.student.domain.TScore">
+        <result property="scoreId" column="score_id" />
+        <result property="scoreValue" column="score_value" />
+        <result property="scoreType" column="score_type" />
+        <result property="studentId" column="student_id" />
+        <association property="student" javaType="com.ruoyi.student.domain.TStudent">
+            <id property="studentNo" column="student_no" />
+            <result property="studentName" column="student_name" />
+            <result property="studentSex" column="student_sex" />
+            <result property="stuPass" column="stu_pass" />
+        </association>
+    </resultMap>
+
+    <sql id="selectTScoreVo">
+        SELECT s.score_id, s.score_value, s.score_type, s.student_id,
+               t.student_no, t.student_name, t.student_sex, t.stu_pass
+        FROM t_score s
+                 JOIN t_student t ON s.student_id = t.student_no
+    </sql>
+    <select id="selectTScoreList" parameterType="com.ruoyi.student.domain.TScore" resultMap="TScoreResult">
+        <include refid="selectTScoreVo"/>
+        <where>
+            <if test="scoreValue != null"> AND s.score_value = #{scoreValue}</if>
+            <if test="scoreType != null and scoreType != ''"> AND s.score_type = #{scoreType}</if>
+            <if test="studentId != null and studentId != ''">AND s.student_id = #{studentId}</if>
+            <if test="student != null">
+                <if test="student.studentName != null and student.studentName != ''">
+                    AND t.student_name = #{student.studentName}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTScoreByScoreId" parameterType="Long" resultMap="TScoreResult">
+        <include refid="selectTScoreVo"/>
+        WHERE s.score_id = #{scoreId}
+    </select>
+
+    <insert id="insertTScore" parameterType="com.ruoyi.student.domain.TScore" useGeneratedKeys="true" keyProperty="scoreId">
+        INSERT INTO t_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scoreValue != null">score_value,</if>
+            <if test="scoreType != null">score_type,</if>
+            <if test="studentId != null">student_id,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="scoreValue != null">#{scoreValue},</if>
+            <if test="scoreType != null">#{scoreType},</if>
+            <if test="studentId != null">#{studentId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTScore" parameterType="com.ruoyi.student.domain.TScore">
+        UPDATE t_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scoreValue != null">score_value = #{scoreValue},</if>
+            <if test="scoreType != null">score_type = #{scoreType},</if>
+            <if test="studentId != null">student_id = #{studentId},</if>
+        </trim>
+        WHERE score_id = #{scoreId}
+    </update>
+
+    <delete id="deleteTScoreByScoreId" parameterType="Long">
+        DELETE FROM t_score WHERE score_id = #{scoreId}
+    </delete>
+
+    <delete id="deleteTScoreByScoreIds" parameterType="List">
+        DELETE FROM t_score WHERE score_id IN
+        <foreach item="scoreId" collection="list" open="(" separator="," close=")">
+            #{scoreId}
+        </foreach>
+    </delete>
+
+</mapper>
