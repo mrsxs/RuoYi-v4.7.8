@@ -9,6 +9,7 @@
         <result property="scoreValue" column="score_value" />
         <result property="scoreType" column="score_type" />
         <result property="studentId" column="student_id" />
+        <result property="studentName" column="student_name" />
         <association property="student" javaType="com.ruoyi.student.domain.TStudent">
             <id property="studentNo" column="student_no" />
             <result property="studentName" column="student_name" />

@@ -37,18 +37,11 @@ public class TScore extends BaseEntity {
   private String studentName;
 
   public String getStudentName() {
-    if (student != null) {
-      return student.getStudentName();
-    }
     return studentName;
   }
 
   public void setStudentName(String studentName) {
-    this.student = student;
-    // 同时设置 studentName
-    if (student != null) {
-      this.studentName = student.getStudentName();
-    }
+    this.studentName = studentName;
   }
 
   public TStudent getStudent() {

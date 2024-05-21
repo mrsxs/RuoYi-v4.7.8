@@ -117,6 +117,9 @@ public class TScoreServiceImpl implements ITScoreService {
         total.setStudentName(score.getStudent().getStudentName());
         ScoreType(map, score, total);
       }
+      //计算总分
+        Total total = map.get(score.getStudentId());
+        total.setTotalScore(total.getExamScore() + total.getTestScore() + total.getExerciseScore());
     }
 
 

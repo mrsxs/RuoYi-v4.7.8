@@ -62,8 +62,8 @@ public class Total extends BaseEntity {
   }
 
   public long getTotalScore() {
-    //总成绩=习题成绩+考试成绩+测验成绩
-    return exerciseScore + examScore + testScore;
+
+    return totalScore;
   }
 
   public void setTotalScore(long totalScore) {

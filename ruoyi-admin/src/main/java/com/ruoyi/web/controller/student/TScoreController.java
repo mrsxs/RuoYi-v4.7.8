@@ -73,6 +73,19 @@ public class TScoreController extends BaseController {
   }
 
   /**
+   * 导出成绩管理列表
+   */
+  @RequiresPermissions("student:score:export")
+  @Log(title = "成绩管理", businessType = BusinessType.EXPORT)
+  @PostMapping("/export1")
+  @ResponseBody
+  public AjaxResult export1(TScore tScore) {
+    List<Total> list = tScoreService.selectTScoreAndTotalScore(tScore);
+    ExcelUtil<Total> util = new ExcelUtil<Total>(Total.class);
+    return util.exportExcel(list, "成绩管理数据");
+  }
+
+  /**
    * 新增成绩管理
    */
   @GetMapping("/add")
